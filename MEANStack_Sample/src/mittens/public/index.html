@@ -1,0 +1,45 @@
+<html ng-app="Mittens"> <!--Scope is from html to html. Dat can be changed depending on the requirement-->
+<head>
+	<meta charset="utf-8"/>
+	<title>Mittens</title>
+	<link rel="stylesheet" type="text/css" href="Bootstrap/css/bootstrap.css">  <!-- Using the CSS styles -->
+	<link rel="stylesheet" type="text/css" href="Bootstrap/css/style.css">
+	<script type="text/javascript" src="angular.min.js"></script>  <!-- using the angular javascript file placed in the folder -->
+	<script type="text/javascript">
+		var app=angular.module('Mittens', []) <!-- Initialize angular app -->
+		app.controller("MittensCtrl",function($scope,$http){
+			
+			$scope.submitNewMeow=function(){
+				$http.post('/meows',{newMeow:$scope.newMeow}).then(function(){
+					alert("success!!!");
+				});
+				
+			};<!-- Function which will be called when submit button is pressed. This will post the data to the server. Callback function is also implemented -->
+			
+			$http.get('/meows').then(function(response){
+			$scope.meows=response.data
+			}); <!--on opening the URL this will be called and data from the server will be loaded to the meows-->
+		});  <!-- angular controller module -->
+	</script>
+</head>
+<body ng-controller="MittensCtrl">
+	<h1 class="page-title">Mittens</h1>
+	<div class ="row feed"> <!-- Classes are defined and Implemented in style.css. This will format the data accodingly -->
+		<div class="col-md-4">
+			<h2>Login:</h2>
+			<br><br>
+			<input type="text" size="30" placeholder="Username">
+			<br><br>
+			<input type="password" size="30" placeholder="Password">
+		</div>
+		<div class="col-md-8">
+		<div class="new-meow">
+			<input type="text" class="form-control" ng-model="newMeow" placeholder="What do u have today">
+			<button class="btn btn-default" ng-click='submitNewMeow()' type="submit">Submit</button>
+		</div>
+		<h3 ng-repeat="meow in meows"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+		{{meow}}
+		</div>
+	</div>	
+</body>
+</html>

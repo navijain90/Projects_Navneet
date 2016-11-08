@@ -1,0 +1,29 @@
+version: '2'
+services:
+
+    mydb:
+      image: mysql
+      ports:
+         - 3306:3306
+      volumes:
+         - /var/lib/mysql
+      environment:
+         MYSQL_ROOT_PASSWORD: admin
+    navneet_myweb:
+      build: .
+      ports:
+         - 5000:5000
+      restart: always
+      links:
+         - mydb
+      depends_on:
+         - mydb
+
+
+
+
+
+
+
+
+
